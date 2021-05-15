@@ -1,14 +1,14 @@
 import React from "react";
 
-const MovieList = ({ movies }) => {
+const MovieList = (props) => {
   const movieClicked = (movie) => evt => {
     props.movieClicked(movie)
   }
 
   return (
     <div>
-      {movies &&
-        movies.map((movie) => {
+      {props.movies &&
+        props.movies.map((movie) => {
           return (
             <div key={movie.id}>
               <h2 onClick={movieClicked(movie)}>{movie.title}</h2>
