@@ -5,6 +5,23 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 const MovieDetails = (props) => {
   const [highlighted, setHighlighted] = useState(-1);
   const mov = props.movie;
+  const highlightRate = (high) => (evt) => {
+    setHighlighted(high);
+  };
+
+  const rateClicked = (rate) => (evt) => {
+    fetch(`http://127.0.0.1:8000/api/movies/${mov.id}/rate_movie/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Token b41fa5e9613329067b81bf277092e59820a1081a",
+      },
+      body: JSON.stringify({ stars: rate + 1 }),
+    })
+      .then((resp) => resp.json())
+      .then((resp) => console.log(resp))
+      .catch((error) => console.log(error));
+  };
 
   return (
     <>
@@ -41,8 +58,9 @@ const MovieDetails = (props) => {
                   key={i}
                   icon={faStar}
                   className={highlighted > i - 1 ? "purple" : ""}
-                  onMouseEnter={setHighlighted(i)}
-                  onMouseLeave={setHighlighted(-1)}
+                  onMouseEnter={highlightRate(i)}
+                  onMouseLeave={highlightRate(-1)}
+                  onClick={rateClicked(i)}
                 />
               );
             })}
