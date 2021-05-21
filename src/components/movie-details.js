@@ -18,6 +18,18 @@ const MovieDetails = (props) => {
       },
       body: JSON.stringify({ stars: rate + 1 }),
     })
+      .then(() => getDetails())
+      .catch((error) => console.log(error));
+  };
+
+  const getDetails = () => {
+    fetch(`http://127.0.0.1:8000/api/movies/${mov.id}/`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Token b41fa5e9613329067b81bf277092e59820a1081a",
+      },
+    })
       .then((resp) => resp.json())
       .then((resp) => console.log(resp))
       .catch((error) => console.log(error));
